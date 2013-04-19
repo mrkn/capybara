@@ -18,6 +18,8 @@ describe Capybara do
               <form>
                 <input type="text" name="bleh" disabled="disabled"/>
                 <input type="text" name="meh"/>
+                <input type="button" value="enabled_button"/>
+                <input type="button" value="disabled_button" disabled="disabled"/>
               </form>
 
               <div id="footer">
@@ -134,6 +136,50 @@ describe Capybara do
       it "allows regexp matches" do
         string.has_no_title?(/s[a-z]+_node/).should be_false
         string.has_no_title?(/monkey/).should be_true
+      end
+    end
+
+    describe '#has_button?' do
+      context 'for an enabled button' do
+        it 'returns true for a disabled button without any options' do
+          string.has_button?('enabled_button').should be_true
+        end
+
+        it 'returns false for an enabled button with :disabled => true' do
+          string.has_button?('enabled_button', :disabled => true).should be_false
+        end
+      end
+
+      context 'for a disabled button' do
+        it 'returns false for a disabled button without any options' do
+          string.has_button?('disabled_button').should be_false
+        end
+
+        it 'returns true for a disabled button with :disabled => true' do
+          string.has_button?('disabled_button', :disabled => true).should be_true
+        end
+      end
+    end
+
+    describe '#has_no_button?' do
+      context 'for an enabled button' do
+        it 'returns false for a disabled button without any options' do
+          string.has_no_button?('enabled_button').should be_false
+        end
+
+        it 'returns true for an enabled button with :disabled => true' do
+          string.has_no_button?('enabled_button', :disabled => true).should be_true
+        end
+      end
+
+      context 'for a disabled button' do
+        it 'returns true for a disabled button without any options' do
+          string.has_no_button?('disabled_button').should be_true
+        end
+
+        it 'returns false for a disabled button with :disabled => true' do
+          string.has_no_button?('disabled_button', :disabled => true).should be_false
+        end
       end
     end
   end

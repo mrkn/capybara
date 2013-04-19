@@ -501,20 +501,40 @@ describe Capybara::RSpecMatchers do
   end
 
   describe "have_button matcher" do
-    let(:html) { '<button>A button</button><input type="submit" value="Another button"/>' }
+    context "for an enabled button" do
+      let(:html) { '<button>A button</button><input type="submit" value="Another button"/>' }
 
-    it "gives proper description" do
-      have_button('A button').description.should == "have button \"A button\""
+      it "gives proper description" do
+        have_button('A button').description.should == "have button \"A button\""
+      end
+
+      it "passes if there is such a button" do
+        html.should have_button('A button')
+      end
+
+      it "fails if there is no such button" do
+        expect do
+          html.should have_button('No such Button')
+        end.to raise_error(/expected to find button "No such Button"/)
+      end
     end
 
-    it "passes if there is such a button" do
-      html.should have_button('A button')
-    end
+    context "for an disabled button" do
+      let(:html) { '<button>A button</button><input type="submit" disabled="disabled" value="Another button"/>' }
 
-    it "fails if there is no such button" do
-      expect do
-        html.should have_button('No such Button')
-      end.to raise_error(/expected to find button "No such Button"/)
+      it "gives proper description" do
+        have_button('A button').description.should == "have button \"A button\""
+      end
+
+      it "passes if there is such a button" do
+        html.should have_button('A button')
+      end
+
+      it "fails if there is no such button" do
+        expect do
+          html.should have_button('No such Button')
+        end.to raise_error(/expected to find button "No such Button"/)
+      end
     end
   end
 

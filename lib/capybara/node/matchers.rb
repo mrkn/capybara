@@ -276,8 +276,8 @@ module Capybara
       # @param [String] locator      The text, value or id of a button to check for
       # @return [Boolean]            Whether it exists
       #
-      def has_button?(locator)
-        has_selector?(:button, locator)
+      def has_button?(locator, options={})
+        has_selector?(:button, locator, options)
       end
 
       ##
@@ -288,8 +288,8 @@ module Capybara
       # @param [String] locator      The text, value or id of a button to check for
       # @return [Boolean]            Whether it doesn't exist
       #
-      def has_no_button?(locator)
-        has_no_selector?(:button, locator)
+      def has_no_button?(locator, options={})
+        has_no_selector?(:button, locator, options)
       end
 
       ##
